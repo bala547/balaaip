@@ -1,0 +1,22 @@
+name: Snowflake Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Snowflake CLI
+        run: |
+          curl -sf (link unavailable) | sh
+      - name: Deploy to Snowflake
+        run: |
+          snowsql -c "USE ROLE SYSADMIN" -c "RUN FILE ./deploy.sql"
+      - name: Validate deployment
+        run: |
+          snowsql -c "SELECT * FROM information_schema.tables"
