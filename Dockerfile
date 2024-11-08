@@ -1,9 +1,23 @@
-FROM jenkins/jenkins:lts
+FROM python:3.11
 
-# Install required applications
-USER root
-RUN apt-get update
-RUN apt-get install -y docker.io
+WORKDIR /schemachange
 
-# Drop back to the regular jenkins user
-USER jenkins
+RUN apt-get update 
+
+RUN apt-get install -y \
+    libssl-dev \
+    libffi-dev \
+    build-essential \
+    
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install schemachange
+
+COPY . .
+
+ENTRYPOINT ["schemachange"]
+
+CMD ["--help"]
+
+
+
